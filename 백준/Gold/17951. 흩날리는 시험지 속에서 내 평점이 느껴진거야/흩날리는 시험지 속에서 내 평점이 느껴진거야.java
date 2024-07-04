@@ -34,6 +34,7 @@ public class Main {
     }
 
     static int BinarySearch(int left,int right){
+        int result=0;
           //그룹의 수를 새주는 변수
 
         while(left<=right){
@@ -50,6 +51,7 @@ public class Main {
             }
             if(gnt>=M){
                 left=mid+1;
+                result=mid;
             }
             else if(gnt<M){
                 right=mid-1;
@@ -57,7 +59,7 @@ public class Main {
 
 
         }
-        return right;
+        return result;
 
 
     }
