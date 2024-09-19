@@ -31,6 +31,7 @@ public class Main {
 
 
 
+
         for(int i=0;i<N;i++){
             String str=br.readLine();
             for(int j=0;j<M;j++){
@@ -38,6 +39,7 @@ public class Main {
 
             }
         }
+
 
         bw.write(String.valueOf(BFS()));
 
@@ -60,71 +62,70 @@ public class Main {
 
     }
 
-    static boolean outcheck(int nextx,int nexty){
-
-        if(nextx<0 || nextx>=N || nexty<0 || nexty>= M)return true;
-
-        return false;
-
-    }
-
     static int BFS(){
 
-        Queue<int[]>queue=new LinkedList<>();
+        Queue<int []> queue =new LinkedList<>();
 
-        for(int i=0;i<N;i++){
-            for(int j=0;j<M;j++){
-
-                visited[i][j][0]=visited[i][j][1]=-1;
-
-            }
-        }
-
+        queue.add(new int[]{0,0,0});   //마지막 0은 벽을 뚫었는지 여부
         visited[0][0][0]=1;
         visited[0][0][1]=1;
 
 
-        queue.add(new int[]{0,0,0});  //0은 x좌표,0은 y좌표, 0은 안 부쉈다는 뜻
-
         while(!queue.isEmpty()){
 
-            int cur[]= queue.poll();
-            if(cur[0]==N-1 && cur[1]==M-1){
+            int cur[]=queue.poll();
+            if(cur[0] == N-1 && cur[1] == M-1){
                 return visited[cur[0]][cur[1]][cur[2]];
             }
 
-            for(int dir=0;dir<4;dir++){
+            for(int dis=0;dis<4;dis++){
 
-                int nextx=dx[dir]+cur[0];
-                int nexty=dy[dir]+cur[1];
+                int nextx=cur[0]+dx[dis];
+                int nexty=cur[1]+dy[dis];
                 int broken=cur[2];
+
+
+
                 if(outcheck(nextx,nexty))continue;
 
-                if(board[nextx][nexty]=='0' && visited[nextx][nexty][cur[2]]==-1){
-                    visited[nextx][nexty][cur[2]]=visited[cur[0]][cur[1]][broken]+1;
-                    queue.offer(new int []{nextx,nexty,broken});
-                }
 
-                if(broken != 1 && board[nextx][nexty]=='1' && visited[nextx][nexty][1]==-1){
+                if(broken ==0 && board[nextx][nexty]=='1' && visited[nextx][nexty][1]==0){ //진행칸이 벽이면
+
+
+
                     visited[nextx][nexty][1]=visited[cur[0]][cur[1]][broken]+1;
-                    queue.offer(new int[]{nextx,nexty,1});
+                    queue.add(new int[]{nextx,nexty,1});
 
                 }
+                if(board[nextx][nexty]=='0' && visited[nextx][nexty][broken]==0 ){
+                    visited[nextx][nexty][broken]=visited[cur[0]][cur[1]][broken]+1;
+                    queue.add(new int[]{nextx,nexty,broken});
 
 
-
-
+                }
 
 
             }
-        }
 
+        }
         return -1;
 
 
 
 
+    }
 
+    static boolean outcheck(int nextx,int nexty){
+        if(nextx <0 || nextx>=N || nexty<0 || nexty>=M){
+            return true;
+        }
+        return false;
 
     }
+
+
+
+
+
+
 }
