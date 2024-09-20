@@ -14,17 +14,6 @@ public class Main {
     static boolean[][] visited;
 
 
-
-
-
-
-
-
-
-
-
-
-
     public static void main(String[] args) throws IOException {
         BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
@@ -149,6 +138,7 @@ public class Main {
             for(int dir=0;dir<4;dir++){
                 int nextx=x+dx[dir];
                 int nexty=y+dy[dir];
+                if(outcheck(nextx,nexty))continue;
 
 
                 if(board[nextx][nexty]==0 && map[nextx][nexty]==0)count++;
@@ -169,15 +159,6 @@ public class Main {
         }
         return false;
     }
-
-
-
-
-
-
-
-
-
 
 
 
