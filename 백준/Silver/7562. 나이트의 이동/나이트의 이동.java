@@ -1,88 +1,87 @@
 import java.io.*;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+
 
 public class Main {
-    public static void main(String[] args) throws IOException {
 
 
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+
+    static int[] dx={1,-1,2,-2,2,-2,1,-1};
+    static int[] dy={2,2,-1,1,1,-1,-2,-2};
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
-        int [] dx=new int[]{-2,-2,-1,-1,1,1,2,2};
-        int [] dy=new int[]{-1,1,2,-2,2,-2,-1,1};
 
 
+        int test=Integer.parseInt(br.readLine());
 
-
-        int test= Integer.parseInt(br.readLine());
-
-        for(int qwe=0;qwe<test;qwe++){
-
+        for(int i=0;i<test;i++){
 
             int N=Integer.parseInt(br.readLine());
-            int board[][]=new int[N][N];
 
-            int visited[][]=new int[N][N];
 
-            Queue<int[]> queue =new LinkedList<>();
 
-            for(int i=0;i<N;i++){
-                for(int j=0;j<N;j++){
-                    visited[i][j]=-1;
+            int visited[][]= new int[N][N];
+            for(int qwe=0;qwe<N;qwe++){
+
+                for(int r=0;r<N;r++){
+                    visited[qwe][r]= -1;
                 }
             }
 
-            StringTokenizer st=new StringTokenizer(br.readLine()); //시작지점 입력받음
-            int startx=Integer.parseInt(st.nextToken());
-            int starty=Integer.parseInt(st.nextToken());
-            queue.add(new int[]{startx,starty});
-            visited[startx][starty]++;
+
+            StringTokenizer st=new StringTokenizer(br.readLine());
+            int start[]=new int[]{Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())};
 
 
-            st=new StringTokenizer(br.readLine()); //끝지점 입력받음
+            st=new StringTokenizer(br.readLine());
 
-            int wantx=Integer.parseInt(st.nextToken());
-            int wanty=Integer.parseInt(st.nextToken());
+            int wx=Integer.parseInt(st.nextToken()); // 내가 가고자하는
+            int wy=Integer.parseInt(st.nextToken());
 
-           /* if(wantx==startx && wanty == starty){
-                bw.write("0");
-                bw.flush();
-                bw.close();
-                return;
-            }*/
+            if(start[0]==wx && start[1]==wy){
+                bw.write("0\n");
+                continue;
+
+            }
+
+            Queue<int[]> queue=new LinkedList<>();
+            queue.add(start);
+            visited[start[0]][start[1]]=0;
+
 
             while(!queue.isEmpty()){
 
-                int cur[]= queue.poll();
+                int cur[]=queue.poll();
+
+
                 for(int dir=0;dir<8;dir++){
-                    int nextx=dx[dir]+cur[0];
-                    int nexty=dy[dir]+cur[1];
+                    int nx=cur[0]+dx[dir];
+                    int ny=cur[1]+dy[dir];
 
-                    if(nextx <0 || nextx >= N || nexty <0 || nexty >= N ) continue;
+                    if(nx==wx && ny == wy){  //원하는 값 도착하면 그만하고 끝내서 큐비워서 BFS중단
+                        bw.write(String.valueOf(visited[cur[0]][cur[1]] +1));
+                        bw.newLine();
 
-                    if(visited[nextx][nexty]!=-1) continue;
+                        while(!queue.isEmpty()){
+                            queue.poll();
 
-                    queue.offer(new int[]{nextx,nexty});
-                    visited[nextx][nexty]=visited[cur[0]][cur[1]]+1;
+                        }
+                        break;
+                    }
 
+                    if(nx<0 || nx>= N || ny<0|| ny>=N)continue;
+                    if(visited[nx][ny]!=-1)continue;  // 이미 방문했던 곳이라면
 
-
-
-
-                }
-                if(visited[wantx][wanty]!=-1){
-                    bw.write(String.valueOf(visited[wantx][wanty]));
-                    bw.newLine();
-                    break;
+                    visited[nx][ny]=visited[cur[0]][cur[1]]+1;
+                    queue.add(new int[]{nx,ny});
 
                 }
 
 
 
             }
-
-
 
 
 
@@ -90,14 +89,12 @@ public class Main {
         }
 
 
-
-
-
-
-
-
         bw.flush();
         bw.close();
+
+
+
+
 
 
     }
