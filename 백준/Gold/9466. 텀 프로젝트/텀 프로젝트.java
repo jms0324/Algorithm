@@ -1,62 +1,61 @@
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main{
 
-
-    static int NOT_VISITED=0;
+    static int NOTVISITED=0;
     static int VISITED=1;
-
-    static int CYCLE=2;
-    static int NOT_CYCLE=3;
+    static int cycle=2;
+    static int notcycle=3;
 
     static int arr[]=new int[100005];
     static int state[]=new int[100005];
 
+    public static void main(String []args)throws IOException {
 
-
-
-
-    public static void main(String[] args) throws IOException {
-        BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int testcase = Integer.parseInt(br.readLine());
 
-        for(int i=0;i<testcase;i++){
+        int testcase=Integer.parseInt(br.readLine());
+
+        for(int qwe=0;qwe<testcase;qwe++){
+
             int N=Integer.parseInt(br.readLine());
             StringTokenizer st=new StringTokenizer(br.readLine());
 
-            for(int j=1;j<N+1;j++){
-                arr[j]=Integer.parseInt(st.nextToken());
-                state[j]=NOT_VISITED;
+            for(int i=1;i<=N;i++){
+
+                arr[i]=Integer.parseInt(st.nextToken());
+                state[i]=NOTVISITED;
+
+
             }
+            for(int i=1;i<=N;i++){
 
-
-            for(int j=1;j<N+1;j++){
-                if(state[j]==NOT_VISITED)run(j);
-
+                if(state[i]==NOTVISITED){
+                    run(i);
+                }
             }
             int cnt=0;
-            for(int j=1;j<N+1;j++){
-                if(state[j]==NOT_CYCLE){
+
+            for(int i=1;i<N+1;i++){
+
+                if(state[i]==notcycle){
                     cnt++;
 
                 }
-
             }
-            bw.write(String.valueOf(cnt));
-            bw.newLine();
 
-
+            bw.write(String.valueOf(cnt+"\n"));
 
 
 
 
         }
-
 
 
 
@@ -66,58 +65,71 @@ public class Main {
         bw.close();
 
 
+
+
+
     }
 
-
-    static void run(int x){
-
+    static  void run(int x){
 
         int cur=x;
 
-        while(true){
-            state[cur]=VISITED;
-            cur=arr[cur]; //다음학생
 
-            if(state[cur]==CYCLE || state[cur]==NOT_CYCLE){
-                cur=x;
-                while(state[cur]==VISITED){
-                    state[cur]=NOT_CYCLE;
-                    cur=arr[cur];
-                }
+      while (true){
 
-                return;
-            }
+          state[cur]=VISITED;
+          cur=arr[cur]; //다음학생
 
+          if(state[cur]==cycle || state[cur]==notcycle){  //이미 사이클이 아닌지 맞는지 판가름이 난 곳을 만난 경우
 
+              cur=x;
+              while(state[cur]==VISITED){
+                  state[cur]=notcycle;
+                  cur=arr[cur];
+              }
 
 
-            if(state[cur]==VISITED && cur!=x){
-                while(state[cur]!=CYCLE){
-                    state[cur]=CYCLE;
-                    cur=arr[cur];
-                }
-                cur=x;
-                while(state[cur]!=CYCLE){
-                    state[cur]=NOT_CYCLE;
-                    cur=arr[cur];
-                }
-
-                return;
+              return;
 
 
+          }
 
-            }
+          if(state[cur]==VISITED && cur != x){ // 쭉 진행되다가 사이클을 처음 발견한경우
 
-            if(state[cur]==VISITED && cur==x){
-                while(state[cur]!=CYCLE){
-                    state[cur]=CYCLE;
-                    cur=arr[cur];
-                }
-                return;
-            }
+              while(state[cur]!=cycle){
+              state[cur]=cycle;
+              cur=arr[cur];
 
-        }
+               }
 
+              cur=x;
+              while(state[cur]!=cycle){
+                  state[cur]=notcycle;
+                  cur=arr[cur];
+              }
+              return;
+
+
+          }
+
+
+          if(arr[cur]==x && state[cur]==VISITED ){   //사이클을 만나는 경우
+
+              while(state[cur]!=cycle){
+                  state[cur]=cycle;
+                  cur=arr[cur];
+
+              }
+
+              return;
+
+          }
+
+
+
+
+
+      }
 
 
 
@@ -126,9 +138,6 @@ public class Main {
 
 
     }
-
-
-
 
 
 
