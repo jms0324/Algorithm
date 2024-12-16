@@ -85,7 +85,19 @@ public class Main {
 
         }
         int newsize=size/3;
-        partition(x,y,newsize);
+
+        for(int i=0;i<3;i++){
+
+            for(int j=0;j<3;j++){
+
+                partition(x+i*newsize,y+j*newsize,newsize);
+            }
+        }
+
+
+
+
+       /* partition(x,y,newsize);
         partition(x,y+newsize,newsize);
         partition(x,y+2*newsize,newsize);
 
@@ -95,11 +107,7 @@ public class Main {
 
         partition(x+2*newsize,y,newsize);
         partition(x+2*newsize,y+newsize,newsize);
-        partition(x+2*newsize,y+2*newsize,newsize);
-
-
-
-
+        partition(x+2*newsize,y+2*newsize,newsize);*/
 
 
 
