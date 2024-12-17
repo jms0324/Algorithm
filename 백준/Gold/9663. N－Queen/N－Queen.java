@@ -1,22 +1,28 @@
-
-
 import java.io.*;
+import java.util.StringTokenizer;
 
-public class Main {
-    static int arr[];
-    static int count=0;
+public class Main{
+
+
+    static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
+
     static int N;
+
+
+    static boolean isused1[]=new boolean[40];
+    static boolean isused2[]=new boolean[40];
+    static boolean isused3[]=new boolean[40];
+    static int cnt=0;
+
+
+
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
-
-
 
         N=Integer.parseInt(br.readLine());
-        arr=new int[N];
-        backtracking(0);
-        bw.write(String.valueOf(count));
-
+        nqueen(0);
+        bw.write(String.valueOf(cnt));
         bw.flush();
         bw.close();
 
@@ -25,41 +31,33 @@ public class Main {
 
 
 
-
     }
 
-    static void backtracking(int depth){
-        if(depth==N){
-            count++;
+
+    static void nqueen(int cur){
+
+        if(cur==N){
+            cnt++;
             return;
         }
 
-
         for(int i=0;i<N;i++){
-            arr[depth]=i;
-            if(check(depth)){
-                backtracking(depth+1);
-            }
+            if(isused1[i] || isused2[cur+i] || isused3[cur-i+N-1])continue;
+
+            isused1[i]=true;
+            isused2[i+cur]=true;
+            isused3[cur-i+N-1]=true;
+            nqueen(cur+1);
+            isused1[i]=false;
+            isused2[i+cur]=false;
+            isused3[cur-i+N-1]=false;
+
+
+
         }
 
 
     }
-    static boolean check(int col){
-
-
-        for(int i=0;i<col;i++){
-            if(arr[col]==arr[i]){
-                return false;
-            }
-
-            if(Math.abs(arr[col]-arr[i])==Math.abs(col-i)){
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 
 
 }
