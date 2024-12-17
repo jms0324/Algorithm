@@ -1,34 +1,34 @@
 import java.io.*;
-import java.util.*;
+import java.util.StringTokenizer;
 
-public class Main {
+import static java.lang.System.in;
+import static java.lang.System.out;
 
+public class Main{
+
+    static BufferedReader br=new BufferedReader(new InputStreamReader(in));
+    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(out));
+
+    static boolean used[];
+    static int arr[];
+    static int N;
     static int M;
 
-    static int N;
 
-    static int arr[];
+    public static void main(String[] args) throws IOException {
 
-    static boolean visited[];
-    static int result[];
-    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
-
-    public static void main(String[] args) throws Exception{
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st=new StringTokenizer(br.readLine());
 
         N=Integer.parseInt(st.nextToken());
         M=Integer.parseInt(st.nextToken());
-        result=new int[M];
+        used=new boolean[N+2];
+        arr=new int [N+2];
 
+        NM(0,1);
 
-
-
-        Comb(0,1);
 
 
         bw.flush();
-        br.close();
         bw.close();
 
 
@@ -37,35 +37,35 @@ public class Main {
 
 
 
-
     }
 
-    private static void Comb(int depth,int start)throws Exception{
+    static void NM(int k,int start)throws IOException{
+        if(k==M){
 
-        if(depth==M){
             for(int i=0;i<M;i++){
-                bw.write(String.valueOf(result[i]+" "));
+                bw.write(String.valueOf(arr[i])+" ");
 
             }
             bw.newLine();
             return;
-
         }
-
         for(int i=start;i<=N;i++){
 
-            result[depth]=i;
-            Comb(depth+1,i+1);
-        }
 
+
+                arr[k]=i;
+
+                NM(k+1,i+1);
+
+
+
+        }
 
 
 
 
 
     }
-
-
 
 
 
