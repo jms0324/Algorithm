@@ -1,38 +1,34 @@
 import java.io.*;
-import java.util.*;
+import java.util.StringTokenizer;
 
-public class Main {
+import static java.lang.System.in;
+import static java.lang.System.out;
 
+public class Main{
+
+    static BufferedReader br=new BufferedReader(new InputStreamReader(in));
+    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(out));
+
+    static boolean used[];
+    static int arr[];
+    static int N;
     static int M;
 
-    static int N;
 
-    static int arr[];
+    public static void main(String[] args) throws IOException {
 
-    static boolean visited[];
-    static int result[];
-    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
-
-    public static void main(String[] args) throws Exception{
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st=new StringTokenizer(br.readLine());
 
         N=Integer.parseInt(st.nextToken());
         M=Integer.parseInt(st.nextToken());
+        used=new boolean[N+2];
+        arr=new int [N+2];
 
-
-        visited=new boolean[N+1];
-
-        result=new int[M];
-
-
-
-        permutation(0);
+        NM(0);
 
 
 
         bw.flush();
-        br.close();
         bw.close();
 
 
@@ -41,36 +37,34 @@ public class Main {
 
 
 
-
     }
 
-    private static void permutation(int depth)throws IOException{
-        if(depth==M){
+    static void NM(int k)throws IOException{
+        if(k==M){
+
             for(int i=0;i<M;i++){
-                bw.write(String.valueOf(result[i]+" "));
+                bw.write(String.valueOf(arr[i])+" ");
 
             }
             bw.newLine();
-            return;
-
         }
-
-
         for(int i=1;i<=N;i++){
 
-            if(!visited[i]){
-                visited[i]=true;
-                result[depth]=i;
-                permutation(depth+1);
-                visited[i]=false;
+            if(!used[i]){
+
+                arr[k]=i;
+                used[i]=true;
+                NM(k+1);
+                used[i]=false;
 
             }
-
-
-
         }
-    }
 
+
+
+
+
+    }
 
 
 
