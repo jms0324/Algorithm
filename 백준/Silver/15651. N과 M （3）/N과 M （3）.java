@@ -1,32 +1,23 @@
 import java.io.*;
 import java.util.StringTokenizer;
 
-import static java.lang.System.in;
-import static java.lang.System.out;
-
 public class Main{
 
-    static BufferedReader br=new BufferedReader(new InputStreamReader(in));
-    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(out));
+    static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
 
-    static boolean used[];
-    static int arr[];
     static int N;
+    static int[] arr;
+
     static int M;
-
-
     public static void main(String[] args) throws IOException {
 
         StringTokenizer st=new StringTokenizer(br.readLine());
-
         N=Integer.parseInt(st.nextToken());
         M=Integer.parseInt(st.nextToken());
-        used=new boolean[N+2];
-        arr=new int [N+2];
+        arr=new int[N+2];
 
-        NM(0);
-
-
+        dfs(0);
 
         bw.flush();
         bw.close();
@@ -35,39 +26,24 @@ public class Main{
 
 
 
-
-
     }
 
-    static void NM(int k)throws IOException{
-        if(k==M){
+    public static void dfs(int depth)throws IOException{
 
+        if(depth==M){
             for(int i=0;i<M;i++){
-                bw.write(String.valueOf(arr[i])+" ");
+                bw.write(arr[i]+" ");
 
             }
             bw.newLine();
             return;
         }
         for(int i=1;i<=N;i++){
-
-
-
-                arr[k]=i;
-
-                NM(k+1);
-
-
-
+            arr[depth]=i;
+            dfs(depth+1);
         }
 
 
 
-
-
     }
-
-
-
-
 }
