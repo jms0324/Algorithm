@@ -3,71 +3,84 @@ import java.util.StringTokenizer;
 
 public class Main{
 
-    static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
+    static int [][] arr;
 
-    static int zero=0;
-    static int one=0;
-
-    static int arr[][];
+    static int white=0;
+    static int blue=0;
 
 
 
     public static void main(String[] args) throws IOException {
 
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+
+        BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
+
         int N=Integer.parseInt(br.readLine());
         arr=new int[N][N];
-
         for(int i=0;i<N;i++){
-
             StringTokenizer st=new StringTokenizer(br.readLine());
-
             for(int j=0;j<N;j++){
+
                 arr[i][j]=Integer.parseInt(st.nextToken());
 
             }
         }
 
-        frust(0,0,N);
-
-        bw.write(String.valueOf(zero+"\n"));
-        bw.write(String.valueOf(one));
+        recur(N,0,0);
+        bw.write(String.valueOf(white+"\n"));
+        bw.write(String.valueOf(blue));
         bw.flush();
         bw.close();
 
 
 
 
+    }
+
+    static void recur(int n,int r,int c){
+
+        if(n==1){
+            if(arr[r][c]==0) white++;
+            if(arr[r][c]==1) blue++;
+
+            return;
+
+
+        }
+
+        if(check(n,r,c)){
+            if(arr[r][c]==0) white++;
+            if(arr[r][c]==1) blue++;
+
+            return;
+
+        }
+
+        int newsize=n/2;
+
+        recur(newsize,r,c);
+        recur(newsize,r,c+newsize);
+        recur(newsize,r+newsize,c);
+        recur(newsize,r+newsize,c+newsize);
+
+
+
 
     }
 
-    static boolean check(int x, int y,int size){
+    static boolean check(int n,int r,int c){
 
-        for(int i=x;i<x+size;i++){
+        for(int i=r;i<r+n;i++){
 
-            for(int j=y;j<y+size;j++){
-                if(arr[x][y]!=arr[i][j])return false;
+            for(int j=c;j<c+n;j++){
+
+                if(arr[r][c]!=arr[i][j])return false;
             }
+
+
         }
         return true;
-    }
-
-    static void frust(int x,int y,int size){
-
-        if(check(x,y,size)){
-            if(arr[x][y]==1)one++;
-            if(arr[x][y]==0)zero++;
-            return;
-        }
-        int newsize=size/2;
-
-        frust(x,y,newsize);
-        frust(x,y+newsize,newsize);
-        frust(x+newsize,y,newsize);
-        frust(x+newsize,y+newsize,newsize);
-
 
     }
-
-
 }
