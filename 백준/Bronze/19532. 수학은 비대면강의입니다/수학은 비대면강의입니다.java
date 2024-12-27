@@ -21,6 +21,7 @@ public class Main{
                 if(a*x+b*y==c && d*x+e*y==f){
                     bw.write(String.valueOf(x)+" ");
                     bw.write(String.valueOf(y));
+                    break;
                 }
             }
         }
