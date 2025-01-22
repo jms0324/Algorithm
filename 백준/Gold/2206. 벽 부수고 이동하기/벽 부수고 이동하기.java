@@ -5,112 +5,58 @@ import java.util.StringTokenizer;
 
 public class Main{
 
-    public static void main(String []args)throws IOException {
+    static BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int dx[]={0,0,-1,1};
+    static int dy[]={1,-1,0,0};
+    static int arr[][];
+
+    static int N;
+    static int M;
+
+    static int visited[][];
+
+    static int visiteda[][];
+
+
+
+
+    public static void main(String[] args) throws IOException {
 
         StringTokenizer st=new StringTokenizer(br.readLine());
-
-        int N=Integer.parseInt(st.nextToken());
-        int M=Integer.parseInt(st.nextToken());
-
-
-        int board[][]=new int[N][M];
-        int visited[][][]=new int[2][N][M];
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(new Node(0,0,0));
-        visited[0][0][0]=1;
-
-
-        int dx[]=new int[]{0,0,1,-1};
-        int dy[]=new int[]{1,-1,0,0};
-
+        N=Integer.parseInt(st.nextToken());
+        M=Integer.parseInt(st.nextToken());
+        arr=new int[N][M];
+        visited=new int[N][M];
+        visiteda=new int[N][M];
 
         for(int i=0;i<N;i++){
-            String str=br.readLine();
-
-
+            String str = br.readLine();
 
             for(int j=0;j<M;j++){
-                board[i][j]=str.charAt(j)-'0';
 
-
+                arr[i][j]=str.charAt(j)-'0';
+                visited[i][j]=-1;
+                visiteda[i][j]=-1;
 
             }
         }
+        BFS(0,0);
 
-
-
-
-
-        while(!queue.isEmpty()){
-
-            Node cur=queue.poll();
-
-            for(int i=0;i<4;i++){
-
-                int nx=cur.x+dx[i];
-                int ny=cur.y+dy[i];
-                int nh=cur.h;
-
-                if(nh==0){
-                    if(nx<0 || nx>=N || ny<0 || ny>=M)continue;
-                    if(visited[0][nx][ny]!=0 )continue;
-
-                    if(board[nx][ny]==1){
-
-                        nh++;
-
-                        visited[1][nx][ny]=visited[0][cur.x][cur.y]+1;
-                    }
-                    else{
-
-                        visited[0][nx][ny]=visited[0][cur.x][cur.y]+1;
-                    }
-
-                    queue.add(new Node(nx,ny,nh));
-
-
-
-
-                }
-                else{
-                    if(nx<0 || nx>=N || ny<0 || ny>=M)continue;
-                    if(visited[1][nx][ny]!=0 || board[nx][ny]==1 )continue;
-
-                    visited[1][nx][ny]=visited[1][cur.x][cur.y]+1;
-                    queue.add(new Node(nx,ny,nh));
-
-
-                }
-
-            }
-
-
-
-        }
-        if(visited[0][N-1][M-1]==0 && visited[1][N-1][M-1]==0){
-
+        if(visited[N-1][M-1]==-1 && visiteda[N-1][M-1]==-1){
             bw.write("-1");
         }
-        else if(visited[0][N-1][M-1]==0){
-            bw.write(String.valueOf(visited[1][N-1][M-1]));
-        }
-        else if(visited[1][N-1][M-1]==0){
+        else if(visited[N-1][M-1]==-1 && visiteda[N-1][M-1]!=-1){
+            bw.write(String.valueOf(visiteda[N-1][M-1]));
 
-            bw.write(String.valueOf(visited[0][N-1][M-1]));
         }
-
+        else if(visited[N-1][M-1]!=-1 && visiteda[N-1][M-1]==-1){
+            bw.write(String.valueOf(visited[N-1][M-1]));
+        }
         else{
-            bw.write(String.valueOf(Math.min(visited[0][N-1][M-1],visited[1][N-1][M-1])));
+            bw.write(String.valueOf(Math.min(visited[N-1][M-1],visiteda[N-1][M-1])));
         }
-
-
-
-
-
-
         bw.flush();
         bw.close();
 
@@ -118,28 +64,79 @@ public class Main{
 
 
 
+
+
+
+
+
     }
 
+    static void BFS(int x, int y){
+        Queue<Node> queue=new LinkedList<>();
+
+        queue.add(new Node(x,y,0));
+        visited[x][y]=1;
+
+        while(!queue.isEmpty()){
+
+            Node cur=queue.poll();
+            for(int i=0;i<4;i++){
+
+                int nx=cur.x+dx[i];
+                int ny=cur.y+dy[i];
+                int nh = cur.count;
+
+                if(nh==0){  //벽을 부순 횟수가 0이라면
+                    if(check(nx,ny))continue;
+                    if(visited[nx][ny]!=-1)continue;
+                    if(arr[nx][ny]==1){   //벽일경우  한 번 부순다
+                        nh=1;
+                        visiteda[nx][ny]=visited[cur.x][cur.y]+1;
+                        queue.add(new Node(nx,ny,nh));
+                    }
+                    else{
+                        visited[nx][ny]=visited[cur.x][cur.y]+1;
+                        queue.add(new Node(nx,ny,nh));
+
+                    }
+
+                }
+                else{  //이미 벽을 한 번 부순 경우
+                    if(check(nx,ny))continue;
+                    if(visiteda[nx][ny]!=-1)continue;
+                    if(arr[nx][ny]==1)continue;
+
+                    visiteda[nx][ny]=visiteda[cur.x][cur.y]+1;
+                    queue.add(new Node(nx,ny,nh));
+
+                }
 
 
 
-
-    static class Node{
-
-        int x;
-        int y;
-        int h;  //벽부순횟수체크
-
-        public  Node(int x, int y,int h){
-            this.x=x;
-            this.y=y;
-            this.h=h;
-
+            }
         }
 
 
 
+    }
+
+    static boolean check(int x,int y){
+
+        if(x<0 || x>= N || y<0 || y>=M)return true;
+        return false;
+    }
 
 
+
+    static class Node{
+        int x;
+        int y;
+        int count;
+
+        public Node(int x, int y,int count) {
+            this.x = x;
+            this.y = y;
+            this.count = count;
+        }
     }
 }
