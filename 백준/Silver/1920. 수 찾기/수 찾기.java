@@ -1,87 +1,68 @@
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int list[];
-    static int N;
 
+    static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
 
+    static int arr[];
+    public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) throws Exception{
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st= new StringTokenizer(br.readLine());
+        int N=Integer.parseInt(br.readLine());
+        arr=new int[N];
+        StringTokenizer st=new StringTokenizer(br.readLine());
 
-        N=Integer.parseInt(st.nextToken());
-        st=new StringTokenizer(br.readLine());
-        list=new int[N];
-        for(int i=0;i<N;i++){
-            list[i] = Integer.parseInt(st.nextToken());
-
-        }
-
-        int m=Integer.parseInt(br.readLine());
-        Arrays.sort(list);
-
-        int arr[]=new int[m];
-        st=new StringTokenizer(br.readLine());
-        for(int i=0;i<m;i++){
+        for(int i=0;i<arr.length;i++){
             arr[i]=Integer.parseInt(st.nextToken());
-        }
-
-        for(int i=0;i<m;i++){
-
-            int target=arr[i];
-            bw.write(String.valueOf(BinarySearch(0,N-1,target)));
-            bw.newLine();
 
         }
+        Arrays.sort(arr);
 
+        int M=Integer.parseInt(br.readLine());
+        int arr2[]=new int[M];
+        st=new StringTokenizer(br.readLine());
+        for(int i=0;i<arr2.length;i++){
+            arr2[i]=Integer.parseInt(st.nextToken());
+        }
 
+        for(int i=0;i<arr2.length;i++){
 
-
-
-
-
-
-
-
+            if(BinarySearch(arr2[i],0,arr.length-1)){
+                bw.write("1\n");
+            }
+            else{
+                bw.write("0\n");
+            }
+        }
         bw.flush();
-        br.close();
         bw.close();
 
 
+
+
+
+
     }
 
-    static int BinarySearch(int left,int right,int target){
+    static boolean BinarySearch(int target,int st,int en){
 
+        while(st<=en){
 
-        while(left<=right){
-            int mid=(left+right)/2;
+            int mid=(st+en)/2;
 
-            if(list[mid]==target){
-                return 1;
+            if(target==arr[mid]){
+                return true;
             }
-
-            if(list[mid]>target){
-                right=mid-1;
-
+            else if(target>arr[mid]){
+                st=mid+1;
             }
-            if(list[mid]<target){
-                left=mid+1;
-
+            else if(target<arr[mid]){
+                en=mid-1;
             }
-
-
-
         }
-        return 0;
 
+        return false;
     }
-
-
-
-
-
-
 }
