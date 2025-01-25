@@ -1,112 +1,83 @@
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Main {
-    static int list[];
+public class Main{
+
+    static BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
+
     static int N;
+    static int []arr;
 
-
-
-    public static void main(String[] args) throws Exception{
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
+    static int []want;
+    static int M;
+    public static void main(String[] args) throws IOException {
 
         N=Integer.parseInt(br.readLine());
-        StringTokenizer st= new StringTokenizer(br.readLine());
-        list=new int[N];
-        for(int i=0;i<N;i++){
 
-            list[i]=Integer.parseInt(st.nextToken());
-        }
-        Arrays.sort(list);
+        arr= new int[N];
 
-        int M=Integer.parseInt(br.readLine());
-        int arr[]=new int[M];
-        st=new StringTokenizer(br.readLine());
-        for(int i=0;i<M;i++){
+        StringTokenizer st=new StringTokenizer(br.readLine());
+        for(int i=0;i<arr.length;i++){
             arr[i]=Integer.parseInt(st.nextToken());
-        }
-
-
-        for(int i=0;i<M;i++){
-
-            bw.write(String.valueOf(upperBound(arr[i])-lowerBound(arr[i]))+" ");
-
-
-
-
 
         }
 
+        Arrays.sort(arr);
 
+        M=Integer.parseInt(br.readLine());
+        want=new int[M];
+        st=new StringTokenizer(br.readLine());
 
+        for(int i=0;i<want.length;i++){
+            want[i]=Integer.parseInt(st.nextToken());
 
-
-
-
-
-
-
-
-
-
+            bw.write(String.valueOf(upper_idx(want[i])-low_idx(want[i])+" "));
+        }
 
         bw.flush();
-        br.close();
         bw.close();
 
 
+
+
+
+
+
     }
+    static int low_idx(int target){
 
-    static int lowerBound(int key){
+        int low=0;
+        int hi=arr.length;
 
-        int left=0;
-        int right=list.length;
+        while(low<hi){
+            int mid=(low+hi)/2;
 
-        while(left<right){
-            int mid=(left+right)/2;
-            if(key<=list[mid]){
-                right=mid;
-            }
+            if(target<=arr[mid])hi=mid;
             else{
-                left=mid+1;
+                low=mid+1;
+
             }
+
         }
-
-        return left;
-
-
-
+        return low;
     }
+    static int upper_idx(int target){
 
-    static int upperBound(int key){
+        int low=0;
+        int hi=arr.length;
 
-        int left=0;
-        int right=list.length;
+        while(low<hi){
+            int mid=(low+hi)/2;
 
-        while(left<right){
-            int mid=(left+right)/2;
+            if(target>=arr[mid])low=mid+1;
+            else {
+                hi=mid;
 
-            if(key<list[mid]){
-
-                right=mid;
             }
-            else{
-                left=mid+1;
-            }
+
         }
-        return left;
-
-
+        return low;
     }
-
-
-
-
-
-
-
-
-
-
 }
