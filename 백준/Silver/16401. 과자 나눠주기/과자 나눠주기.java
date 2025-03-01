@@ -1,65 +1,69 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Main {
+public class Main{
+
+    static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
+
+    static int []arr;
+    static int []arr2;
+    static int N;
+    static int M;
 
     public static void main(String[] args) throws IOException {
-       BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-       BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
-       StringTokenizer st=new StringTokenizer(br.readLine());
-
-
-       int m=Integer.parseInt(st.nextToken());
-       int n=Integer.parseInt(st.nextToken());
-       int result=0;
-
-       int arr[]=new int[n];
-       st=new StringTokenizer(br.readLine());
-       for(int i=0;i<n;i++){
-           arr[i]=Integer.parseInt(st.nextToken());
-       }
-
-       Arrays.sort(arr);
-
-
-       int left=1;
-       int right=arr[n-1];
 
 
 
-       while (left<=right){
-           int mid=(left+right)/2;
-           int cnt=0;
+        StringTokenizer st=new StringTokenizer(br.readLine());
+        M=Integer.parseInt(st.nextToken());
+        N=Integer.parseInt(st.nextToken());
+        arr=new int[N];
+        st = new StringTokenizer(br.readLine());
+        int max=-1;
+        for(int i=0;i<N;i++){
+            arr[i]=Integer.parseInt(st.nextToken());
+            max=Math.max(max,arr[i]);
+        }
 
-           for(int i=0;i<arr.length;i++){
-               if(arr[i]>=mid){
-                   cnt+=arr[i]/mid;
-               }
-           }
-           if(cnt<m){      //조카에게 나누어줄 수 없는 경우
-               right=mid-1;
-
-           }
-           else {          //조카에게 더 나눠줄 수 있는 경우
-               left=mid+1;
-               result=mid;
-           }
+        bw.write(String.valueOf(BinarySearch(max)));
 
 
-
-
-       }
-
-
-       bw.write(String.valueOf(result));
-       br.close();
-       bw.flush();
-       bw.close();
+        bw.flush();
+        bw.close();
 
 
 
 
 
+    }
+
+    static int BinarySearch(int en){
+
+        int st=1;
+        int result=0;
+        while(st<=en){
+
+            int mid=(st+en)/2;
+            int cnt=0;
+            for(int i=0;i<N;i++){
+                cnt+=arr[i]/mid;
+
+            }
+            if(cnt>=M){
+                st=mid+1;
+                result=mid;
+            }
+            else if(cnt<M){//너무 큰 수로 나눈거
+                en=mid-1;
+
+            }
+
+
+        }
+        return result;
 
     }
 
