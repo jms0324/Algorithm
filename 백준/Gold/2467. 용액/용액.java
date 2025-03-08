@@ -1,52 +1,62 @@
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Main {
+public class Main{
+    static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
+        int N=Integer.parseInt(br.readLine());
+        int arr[]=new int[N];
+        StringTokenizer st=new StringTokenizer(br.readLine());
+        for(int i=0;i<N;i++){
+            arr[i]=Integer.parseInt(st.nextToken());
 
-		//입력
-        int n = Integer.parseInt(bf.readLine());
-        int[] arr = Arrays.stream(bf.readLine().split(" "))
-                .mapToInt(x -> Integer.parseInt(x))
-                .toArray();
-        
-        int max = Integer.MAX_VALUE;
-        int[] answer = new int[2];
-        
-        //각 용액에 대해
-        for(int i = 0; i < n ; i++){
-            int left = i + 1;
-            int right = n - 1;
-            
-            //이진탐색으로 0에 가까운 특성값 찾기
-            while(left <= right){
-                int mid = (left + right) / 2;
-
-                int sum = arr[i] + arr[mid];
-
-                if(Math.abs(sum) < max){
-                    answer[0] = arr[i];
-                    answer[1] = arr[mid];
-                    max = Math.abs(sum);
-                }
-
-                if(sum < 0) {
-                    left = mid + 1;
-                }
-                else {
-                    right = mid - 1;
-                }
-            }
         }
 
-        bw.write(answer[0] + " " + answer[1]);
 
+
+        int []answer=new int[2];
+
+        int max=Integer.MAX_VALUE;
+        for(int i=0;i<N;i++){
+            int left=i+1;
+            int right=N-1;
+
+            while(left<=right){
+                int mid=(left+right)/2;
+                int sum=arr[mid]+ arr[i];
+                if(Math.abs(sum)<max){
+                    answer[0]=arr[i];
+                    answer[1]=arr[mid];
+                    max=Math.abs(sum);
+                }
+
+                if(sum>0){
+                    right=mid-1;
+                }
+                else {
+                    left=mid+1;
+                }
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+        bw.write(answer[0]+" "+answer[1]);
         bw.flush();
         bw.close();
-    }
 
+
+
+
+    }
 }
