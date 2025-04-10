@@ -1,48 +1,46 @@
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Main {
-	
-	static int N, M;
-	static int[] arr;
-	
-	static int answer;
+public class Main{
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		
-		// 수 입력
-		arr = new int[N];
-		for(int i = 0; i < N; i++) {
-			arr[i] = Integer.parseInt(br.readLine());
-		}
-		// 정렬
-		Arrays.sort(arr);
-		
-		int answer = Integer.MAX_VALUE;
-		
-		int s = 0; // 작은 쪽 포인터
-		int e = 0; // 큰 쪽 포인터
-		// 끝날 때 까지 반복
-		while(e < N && s <= e) {
-			int rst = arr[e] - arr[s]; // 두 포인터가 가리키는 값의 차
-			// 두 값의 차이가 M 이상이면
-			// s++, 그 차이의 최소값 구하기
-			if(rst >= M) {
-				s++;
-				answer = Math.min(answer, rst);
-			} 
-			// 두 값의 차이가 M보다 작으면 e++
-			else {
-				e++;
-			}
-		}
-		
-		System.out.println(answer);
-	}
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String[] args) throws IOException {
 
+        StringTokenizer strr = new StringTokenizer(br.readLine());
+
+        int N=Integer.parseInt(strr.nextToken());
+        int M= Integer.parseInt(strr.nextToken());
+        int []arr= new int[N];
+
+
+
+        for(int i=0;i<N;i++){
+            arr[i]=Integer.parseInt(br.readLine());
+        }
+        int en=0;
+        int ans=0;
+        int min = Integer.MAX_VALUE;
+        Arrays.sort(arr); //정렬
+        for(int st=0; st<N; st++){
+
+            while(en<N  && arr[en] - arr[st] <M ) en++;
+            if(en==N)break;
+            min= Math.min(min,arr[en]-arr[st]);
+
+
+
+        }
+
+        bw.write(String.valueOf(min));
+        bw.flush();
+        bw.close();
+
+
+
+
+
+
+    }
 }
