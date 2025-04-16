@@ -8,8 +8,26 @@ public class Main{
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         String str=br.readLine();
+        int ans=1;
+        ans = str.charAt(0) == 'c' ? 26 : 10 ;
+        for(int i=1;i<str.length();i++){
 
-        bw.write(String.valueOf(go(str,0,' ')));
+            if(str.charAt(i)=='c'){
+                if(str.charAt(i-1)=='c')ans*=25;
+                else ans*=26;
+
+
+            }
+            else{
+                if(str.charAt(i-1)=='d')ans*=9;
+                else ans*=10;
+
+            }
+
+
+        }
+        bw.write(String.valueOf(ans));
+
 
 
 
