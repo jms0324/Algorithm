@@ -1,6 +1,5 @@
 import sys
 input=sys.stdin.readline
-print=sys.stdout.write
 from collections import deque
 N,M,K=map(int,input().split())
 
@@ -50,10 +49,10 @@ for i in range (N) :
             BFS(i,j,visited)
             ccnt+=1
 
-print(str(ccnt)+"\n")
+print(ccnt)
 ans.sort()
 for i in ans :
-    print(str(i)+" ")
+    print(i,end=' ')
 
 
 
