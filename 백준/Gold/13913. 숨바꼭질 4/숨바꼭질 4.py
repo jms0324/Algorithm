@@ -1,50 +1,45 @@
-
+from collections import deque
 import sys
 input=sys.stdin.readline
-from collections import deque
+N,K=map(int,input().split())
+graph=[0]*100002
+move=["forward","backward","mul"]
+research=[0]*100002
 
-arr=[-1] * (100002)
-S,B=map(int,input().split())
-move=["forward","backward","teleport"]
-queue=deque()
-check=[0]*(100002)
-queue.append(S)
-arr[S]=0
 
 def path(x) :
-    result=[]
+    result = []
     result.append(x)
-    for i in range(arr[x]) :  #방문
-        result.append(check[x])
-        x=check[x]
-    list2=result[::-1]
-    for i in list2 :
+    for i in range(graph[x]) :  #graph[x]가 경로의 길이 이므로
+        result.append(research[x])
+        x=research[x]
+    res2=result[::-1]
+    for i in res2 :
         print(i,end=" ")
 
 
+queue=deque()
+queue.append(N)
 
-while(queue):
+while(queue) :
     cur=queue.popleft()
-    if(cur==B):
-        print(arr[cur])
+    if(cur==K) :
+        print(graph[cur])
         path(cur)
-        #경로추적
-        break
+        exit()
+
+
     for i in move :
-        nx=0
-        if(i=="forward"):
+        if(i == "forward") :
             nx=cur+1
-        elif(i=="backward") :
+        elif(i== "backward") :
             nx=cur-1
-        elif (i=="teleport") :
+        else :
             nx=cur*2
-        if(nx>100000 or nx<0):continue
-        if(arr[nx]!=-1):continue
-        arr[nx]=arr[cur]+1
+        if(nx<0 or nx>=100002) :continue
+        elif(graph[nx]!=0):continue #이미 방문한
+        research[nx]=cur #역추적하기위해
+        graph[nx]=graph[cur]+1
         queue.append(nx)
-        check[nx]=cur
-
-
-
 
 
