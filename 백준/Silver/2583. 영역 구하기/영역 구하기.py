@@ -1,59 +1,41 @@
-import sys
-input=sys.stdin.readline
-from collections import deque
 N,M,K=map(int,input().split())
-
-ans=[]
-
-def BFS(x,y,visited) :
-    global ans
-    cnt=0
+arr=[[0]*M for _ in range(N)]
+visited=[[0]*M for _ in range(N)]
+from collections import deque
+result=[]
+def BFS(startx,starty) :
+    big=1
+    visited[startx][starty]=1
     queue=deque()
-    queue.append((x,y))
-    visited[x][y]=1
+    queue.append((startx,starty))
     while(queue) :
         curx,cury=queue.popleft()
-        cnt+=1 #뺄때 카운트
-        for i in [(0,1),(1,0),(-1,0),(0,-1)] :
+        for i in [(1,0),(0,1),(-1,0),(0,-1)] :
             nx=curx+i[0]
             ny=cury+i[1]
-            if(nx<0 or ny<0 or nx>=N or ny>=M):continue#범위
-            if(visited[nx][ny]==1 or arr[nx][ny]==1):continue #직사각형 만나거나 이미 방문했을떼ㅐ
-            visited[nx][ny]=1 #방문처리
+            if(nx<0 or ny<0 or nx>=N or ny>=M): continue
+            if(visited[nx][ny]!=0 or arr[nx][ny]==1): continue
             queue.append((nx,ny))
-    ans.append(cnt)
+            visited[nx][ny]=visited[curx][cury]+1
+            big+=1
+
+    result.append(big)
+for _ in range(K) :
+    lx,ly,rx,ry=map(int,input().split())
+
+    for y in range(ly,ry):
+        for x in range(lx,rx) :
+            arr[N-1-y][x]=1  #y축은 증가하는 방향이 반대니까
+cnt=0
 
 
+for x in range(N):
+    for y in range(M) :
+        if(visited[x][y]==0 and arr[x][y]!=1) :
+            BFS(x,y)
+            cnt+=1
 
-
-arr = [[0] * M for _ in range(N)]
-for i in range(K):
-    lx, ly, rx, ry = map(int, input().split())
-
-    for y in range(ly, ry):         # 세로 좌표 (y축 → 행 인덱스)
-        for x in range(lx, rx):     # 가로 좌표 (x축 → 열 인덱스)
-            arr[N - 1 - y][x] = 1   # y좌표를 위로 뒤집어서 행 번호로 바꿈
-
-
-
-
-
-
-
-visited=[[0]*M for _ in range(N)]
-ccnt=0
-
-for i in range (N) :
-    for j in range(M) :
-        if(arr[i][j]!=1 and visited[i][j]!=1) :
-            BFS(i,j,visited)
-            ccnt+=1
-
-print(ccnt)
-ans.sort()
-for i in ans :
-    print(i,end=' ')
-
-
-
-
+print(cnt)
+result.sort()
+for i in result :
+    print(i,end=" ")
