@@ -12,18 +12,18 @@ def BFS(start) :
     while(queue) :
         cur=queue.popleft()
         for i in graph[cur] :
-            # if(visited[i]!= 0 and visited[i]==visited[cur]) : #방문했는데 인접한 정점과 같을 경우 (이분그래프가 아님 )
-            #
-            #     return False
-            # if(visited[i]!=0) : continue #이미 방문한경우 but 인접한 정점과 다를경우
-            # else :  #방문안한경우
-            #     visited[i]=-visited[cur]
-            #     queue.append(i)
-            if visited[i] == 0:
-                visited[i] = -visited[cur]
-                queue.append(i)
-            elif visited[i] == visited[cur]:
+            if(visited[i]!= 0 and visited[i]==visited[cur]) : #방문했는데 인접한 정점과 같을 경우 (이분그래프가 아님 )
+
                 return False
+            if(visited[i]!=0) : continue #이미 방문한경우 but 인접한 정점과 다를경우
+            else :  #방문안한경우
+                visited[i]=-visited[cur]
+                queue.append(i)
+            # if visited[i] == 0:
+            #     visited[i] = -visited[cur]
+            #     queue.append(i)
+            # elif visited[i] == visited[cur]:
+            #     return False
 
     return True
 
