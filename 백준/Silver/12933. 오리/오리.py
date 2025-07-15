@@ -1,27 +1,22 @@
-duck=input()
-visited=[False]*len(duck)
+s=input()
+arr=["q","u","a","c","k"]
+visited=[False]*len(s)
+cnt=0
 
-if (len(duck)%5!=0) :  #울음소리의 길이체크
-    print("-1")
-    exit()
-
-
-sound=['q','u','a','c','k']
-cnt=0 #오리세는 변수
-def find(start) :
-    idx=0
+def Find(start):
     global cnt
+    idx=0
     isFirst=True
-    for i in range(start,len(duck)) :
-        if(visited[i]!=True and duck[i]==sound[idx]) :
+    for i in range(start,len(s)) :
+        if(visited[i]!=True and arr[idx]==s[i]):
             visited[i]=True
-            if(sound[idx]=='k') :
-                if(isFirst) :
+            if(s[i]=="k"):
+                if(isFirst):
                     cnt+=1
-                    isFirst = False  #k못찾으면 +=1이 걔ㅖ속된다
+                    isFirst=False
                 idx = 0
                 continue
-            idx +=1
+            idx+=1
 
 
 
@@ -29,22 +24,21 @@ def find(start) :
 
 
 
-for i in range(len(duck)) :
-    if(visited[i]==False and duck[i]=='q') :
-        find(i)
-
-if(cnt==0 or not all(visited)) :
+if(len(s)%5!=0):
     print("-1")
     exit()
+if(s[0]!="q") :
+    print("-1")
+    exit()
+
+
+
+for i in range(len(s)) :
+    if(visited[i]!=True and s[i]=='q'):
+        Find(i)
+
+if(cnt==0 or not all(visited)):
+    print("-1")
+    exit()
+
 print(cnt)
-
-
-
-
-
-
-
-
-
-
-
