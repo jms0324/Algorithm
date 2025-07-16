@@ -25,16 +25,18 @@ for x in range(N):
         if(maap[x][y]=="x" and trap[x][y]=='*'): #지뢰가 있는 칸이 열렸다면 ?
             Flag=True
             break
+#지뢰밟았는지 먼저체크한다  좀이따 값을 덮어쓸거기때문에 그전에 미리 체크해야함 
 
 for x in range(N):
     for y in range(N) :
         if(maap[x][y]=="x"):
-            maap[x][y]=check(x,y)
+            maap[x][y]=check(x,y)  
+#값 덮어쓰기 
 
 if(Flag) :
     for x in range(N):
         for y in range(N):
-            if(trap[x][y]=='*') :
+            if(trap[x][y]=='*') :  
                 maap[x][y]='*'
 
 for i in range(N):
