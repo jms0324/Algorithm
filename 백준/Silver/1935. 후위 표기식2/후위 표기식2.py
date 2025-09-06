@@ -1,36 +1,40 @@
-import sys
 N=int(input())
-expression=list(input()) #문장입력받기
-num_list=[0]*N
+sentence=input()
+numlist=[]
 for i in range(N) :
-    num_list[i]=int(input())  #입력받음
+    numlist.append(int(input()))
 
 
 
-stack=[] #스택선언
+stack=[]
+for x in sentence :
 
-for i in expression :
-    if("A" <= i <= "Z") : #이게 왜 필요한지 :
-        stack.append(num_list[ord(i)-ord("A")])
+    if("A"<=x<="Z") :
+        stack.append(numlist[ord(x)-ord("A")])
+
 
     else :
-        str2=stack.pop()
-        str1=stack.pop()
-        if(i=="*") :
-
-            stack.append(str1*str2)
-
-        elif(i=="/") :
-
-            stack.append(str1/str2)
-
-        elif(i=="-") :
-
-            stack.append(str1-str2)
+        res2=stack.pop()
+        res1=stack.pop()
+        result = 0
+        if(x=="*") :
+            result+=res1*res2
 
 
-        elif(i=="+") :
-            stack.append(str1+str2)
+
+        elif(x=="+") :
+
+            result+=res1+res2
+
+        elif(x=="/") :
+
+            result+=res1/res2
+
+        elif(x=="-") :
+
+            result+=res1-res2
+
+        stack.append(result)
 
 print("%.2f" %stack[0])
 
